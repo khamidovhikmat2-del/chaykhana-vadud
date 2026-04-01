@@ -228,7 +228,6 @@
             transform: scale(0.98);
         }
         
-        /* Корзина - улучшенная */
         .cart-sidebar {
             position: fixed;
             right: -400px;
@@ -345,7 +344,6 @@
             transform: scale(0.98);
         }
         
-        /* Модальные окна */
         .modal {
             display: none;
             position: fixed;
@@ -407,10 +405,9 @@
             color: white;
         }
         
-        /* Футер с белым фоном */
         footer {
             background: white;
-            padding: 30px 20px;
+            padding: 40px 20px;
             margin-top: 40px;
             border-top: 3px solid #10b981;
         }
@@ -418,7 +415,39 @@
         .footer-content {
             max-width: 1200px;
             margin: 0 auto;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-block h4 {
+            color: #10b981;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .footer-block p, .footer-block a {
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+            margin: 8px 0;
+            line-height: 1.5;
+        }
+        
+        .footer-block a:hover {
+            color: #10b981;
+        }
+        
+        .footer-bottom {
             text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 12px;
         }
         
         .footer-links {
@@ -430,29 +459,15 @@
         }
         
         .footer-links a {
-            color: #333;
-            text-decoration: none;
-            font-size: 14px;
-            transition: 0.3s;
-        }
-        
-        .footer-links a:hover {
             color: #10b981;
-        }
-        
-        .footer-info {
-            color: #666;
-            font-size: 12px;
-            line-height: 1.6;
-        }
-        
-        .footer-info p {
-            margin: 5px 0;
+            text-decoration: none;
+            font-size: 13px;
         }
         
         @media (max-width: 600px) {
             .cart-sidebar { width: 100%; right: -100%; }
             .header-inner { flex-direction: column; text-align: center; }
+            .footer-grid { grid-template-columns: 1fr; text-align: center; }
             .footer-links { flex-direction: column; gap: 10px; }
         }
     </style>
@@ -483,7 +498,6 @@
     <div id="menuContainer"></div>
 </div>
 
-<!-- Корзина улучшенная -->
 <div id="cartSidebar" class="cart-sidebar">
     <div class="cart-header">
         <h2>🛒 Корзина</h2>
@@ -498,7 +512,6 @@
     </div>
 </div>
 
-<!-- Модалка регистрации -->
 <div id="authModal" class="modal">
     <div class="modal-content">
         <h2>📱 Вход / Регистрация</h2>
@@ -509,7 +522,6 @@
     </div>
 </div>
 
-<!-- Модалка подтверждения -->
 <div id="confirmModal" class="modal">
     <div class="modal-content">
         <h2>📋 Подтверждение заказа</h2>
@@ -520,28 +532,51 @@
     </div>
 </div>
 
-<!-- Футер с белым фоном и реквизитами -->
 <footer>
     <div class="footer-content">
+        <div class="footer-grid">
+            <div class="footer-block">
+                <h4>📍 Адрес</h4>
+                <p>Советская улица, 184</p>
+                <p>Альметьевск, Республика Татарстан</p>
+                <p>🕐 Ежедневно: 08:00 - 24:00</p>
+            </div>
+            <div class="footer-block">
+                <h4>📞 Контакты</h4>
+                <p>📱 +7 (929) 727-90-90 (горячая линия)</p>
+                <p>💬 WhatsApp: +7 917 222-31-91</p>
+                <p>🚚 Доставка: 1 - 1.5 часа</p>
+            </div>
+            <div class="footer-block">
+                <h4>🏢 Реквизиты</h4>
+                <p>ИП Джумаев Аминджон Махманазарович</p>
+                <p>ИНН: 164465541233</p>
+                <p>Юр. адрес: Альметьевск, ул. Ленина 126</p>
+                <p>📅 Дата начала: 2024 г.</p>
+            </div>
+            <div class="footer-block">
+                <h4>👨‍💻 Создатель сайта</h4>
+                <p>Хамидов Хикматулло</p>
+                <p>Выпускник КнАГУ</p>
+                <p>📞 +7 996 682-46-81</p>
+                <p>✉️ khamidovhikmat2@gmail.com</p>
+            </div>
+        </div>
         <div class="footer-links">
             <a href="#">Политика конфиденциальности</a>
             <span>|</span>
             <a href="#">Пользовательское соглашение</a>
         </div>
-        <div class="footer-info">
-            <p>ИП Ханджанов Е.Г.о.</p>
-            <p>ИНН: 270326542270 / ОГРНИП: 316272400082038</p>
-            <p>© 2026 Чайхана Вадуд. Все права защищены.</p>
+        <div class="footer-bottom">
+            <p>© 2024-2026 Чайхана Вадуд. Все права защищены.</p>
         </div>
     </div>
 </footer>
 
 <script>
-    // Telegram настройки
     const BOT_TOKEN = "8608678770:AAHGYqnZLedOd9U_wK2euMTIO29IeZQVvhs";
     const CHAT_ID = "6714067724";
     
-    // Данные меню (с фото - пока заглушки)
     const menu = {
         hot: [
             { name: "Лагман", desc: "Говядина, овощи, лапша", price: 320, img: "" },
@@ -737,15 +772,14 @@
                 closeModal('confirmModal');
                 closeCart();
             } else {
-                alert('❌ Ошибка отправки. Позвоните нам: +7 (999) 123-45-67');
+                alert('❌ Ошибка отправки. Позвоните нам: +7 (929) 727-90-90');
             }
         } catch (error) {
             console.error('Ошибка:', error);
-            alert('❌ Ошибка отправки. Позвоните нам: +7 (999) 123-45-67');
+            alert('❌ Ошибка отправки. Позвоните нам: +7 (929) 727-90-90');
         }
     }
     
-    // Загрузка меню с фото
     function loadMenu() {
         const categoriesDiv = document.getElementById('categories');
         const menuContainer = document.getElementById('menuContainer');
