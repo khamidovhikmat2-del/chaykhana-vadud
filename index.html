@@ -169,8 +169,8 @@
         
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
         }
         
         .card {
@@ -188,7 +188,7 @@
         
         .card-img {
             width: 100%;
-            height: 160px;
+            height: 180px;
             background: #2a2a2a;
             border-radius: 10px;
             margin-bottom: 15px;
@@ -198,6 +198,7 @@
             color: #666;
             font-size: 14px;
             overflow: hidden;
+            flex-direction: column;
         }
         
         .card-img img {
@@ -208,20 +209,28 @@
         
         .card h3 {
             color: #10b981;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+        
+        .weight {
+            color: #888;
+            font-size: 12px;
+            margin-bottom: 5px;
         }
         
         .price {
             color: #fbbf24;
             font-size: 20px;
             font-weight: bold;
-            margin: 10px 0;
+            margin: 8px 0;
         }
         
         .desc {
             color: #aaa;
-            font-size: 14px;
-            margin: 10px 0;
+            font-size: 13px;
+            margin: 8px 0;
+            line-height: 1.4;
         }
         
         .add-btn {
@@ -300,11 +309,12 @@
         .cart-item-info h4 {
             color: #10b981;
             margin-bottom: 5px;
+            font-size: 14px;
         }
         
         .cart-item-info p {
             color: #fbbf24;
-            font-size: 14px;
+            font-size: 12px;
         }
         
         .cart-item-actions {
@@ -362,40 +372,6 @@
             transform: scale(0.98);
         }
         
-        .address-input {
-            margin-top: 15px;
-            padding: 10px;
-            background: #2a2a2a;
-            border-radius: 10px;
-            display: none;
-        }
-        
-        .address-input.active {
-            display: block;
-        }
-        
-        .address-input textarea {
-            width: 100%;
-            padding: 10px;
-            background: #333;
-            border: 1px solid #10b981;
-            color: white;
-            border-radius: 8px;
-            margin-top: 8px;
-            font-family: inherit;
-            resize: vertical;
-        }
-        
-        .warning-text {
-            background: rgba(251, 191, 36, 0.2);
-            border-left: 3px solid #fbbf24;
-            padding: 10px;
-            margin-bottom: 15px;
-            font-size: 13px;
-            color: #fbbf24;
-            border-radius: 5px;
-        }
-        
         .modal {
             display: none;
             position: fixed;
@@ -418,8 +394,10 @@
             padding: 30px;
             border-radius: 15px;
             width: 90%;
-            max-width: 400px;
+            max-width: 450px;
             border: 1px solid #10b981;
+            max-height: 80vh;
+            overflow-y: auto;
         }
         
         .modal-content h2 {
@@ -456,6 +434,16 @@
         .btn-gray {
             background: #333;
             color: white;
+        }
+        
+        .warning-text {
+            background: rgba(251, 191, 36, 0.2);
+            border-left: 3px solid #fbbf24;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: #fbbf24;
+            border-radius: 5px;
         }
         
         footer {
@@ -522,6 +510,7 @@
             .header-inner { flex-direction: column; text-align: center; }
             .footer-grid { grid-template-columns: 1fr; text-align: center; }
             .footer-links { flex-direction: column; gap: 10px; }
+            .menu-grid { grid-template-columns: 1fr; }
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -652,52 +641,143 @@
     let currentOrderType = null;
     let currentAddress = null;
     
+    // ============================================================
+    // 📸 КАК ДОБАВИТЬ ФОТО ДЛЯ БЛЮД:
+    // 1. Создай папку "images" в репозитории GitHub
+    // 2. Загрузи туда фото с названиями, например: "bliny_s_tvorogom.jpg"
+    // 3. В поле img: укажи путь: "images/название_фото.jpg"
+    // ============================================================
+    
     const menu = {
+        // ==================== ЗАВТРАКИ (BREAKFAST) ====================
+        breakfast: [
+            { name: "Блинчики сладкие с творогом", weight: "200 г", desc: "Тонкие блинчики с нежным творогом и кислинкой летних ягод. Щедро политы душистым сиропом.", price: 250, img: "" },
+            { name: "Блинчики сладкие со сливками", weight: "200 г", desc: "Тонкие блинчики с нежными сливками и кислинкой летних ягод. Щедро политы душистым сиропом.", price: 190, img: "" },
+            { name: "Блинчики сладкие с вареньем", weight: "200 г", desc: "Тонкие блинчики с домашним вареньем и кислинкой летних ягод.", price: 190, img: "" },
+            { name: "Яичница глазунья", weight: "230 г", desc: "Солнечная глазунья из трёх яиц с золотистыми краями. Дополнена хрустом свежих овощей.", price: 160, img: "" },
+            { name: "Омлет", weight: "350 г", desc: "Пышный омлет с аппетитной начинкой из ветчины халяль и сыра с порцией свежих овощей.", price: 290, img: "" },
+            { name: "Блинчики с сыром и ветчиной", weight: "200 г", desc: "Тонкие блинчики с начинкой из расплавленного сыра и ароматной ветчины.", price: 250, img: "" },
+            { name: "Овсяная каша", weight: "300 г", desc: "Нежная овсяная каша на молоке со сливочным маслом, украшенная свежими ягодами и хрустящей гранолой.", price: 200, img: "" },
+            { name: "Манная каша", weight: "300 г", desc: "Манная каша с маслом, ягодами и гранолой. Воздушное сочетание с контрастом текстур.", price: 200, img: "" },
+            { name: "Бодрое утро", weight: "330 г", desc: "Сытный завтрак из двух яиц, обжаренных сосисок, авокадо и творожного сыра.", price: 350, img: "" },
+            { name: "Сырники", weight: "180 г", desc: "Ароматные сырники по-бабушкиному рецепту с золотистой корочкой. Подаются со сметаной.", price: 230, img: "" },
+            { name: "Рисовая каша", weight: "300 г", desc: "Сливочная рисовая каша с ягодами и хрустящей гранолой.", price: 200, img: "" }
+        ],
+        // ==================== СУПЫ ====================
+        soups: [
+            { name: "Шурпа из баранины", weight: "400 г", desc: "Насыщенная шурпа с нежной бараниной, свежими овощами и ароматом зиры.", price: 290, img: "" },
+            { name: "Суп лапша из курицы", weight: "350 г", desc: "Ароматный куриный суп с золотистой лапшой, нежным мясом и свежей зеленью.", price: 190, img: "" },
+            { name: "Борщ с говядиной", weight: "350 г", desc: "Наваристый борщ с нежной говядиной, свеклой и ароматными овощами. Подается со сметаной.", price: 240, img: "" },
+            { name: "Шурпа из говядины", weight: "400 г", desc: "Ароматная шурпа с нежной говядиной, свежими овощами и пряностями.", price: 280, img: "" },
+            { name: "Пельмени с бульоном", weight: "350 г", desc: "Нежные пельмени с сочной говядиной, поданные с ароматным бульоном.", price: 250, img: "" },
+            { name: "Лагман", weight: "400 г", desc: "Насыщенный лагман с нежной говядиной, ароматными овощами и тянутой лапшой.", price: 300, img: "" }
+        ],
+        // ==================== ГАРНИРЫ И СОУСЫ ====================
+        garnishes: [
+            { name: "Картофель фри", weight: "130 г", desc: "Картофель обжаренный во фритюре, соль.", price: 130, img: "" },
+            { name: "Картофель по-деревенски", weight: "130 г", desc: "Картофель дольками, обжаренный во фритюре, соль.", price: 135, img: "" },
+            { name: "Лепешка кулча", weight: "1 шт", desc: "Ароматная узбекская лепешка.", price: 50, img: "" }
+        ],
+        sauces: [
+            { name: "Соус Сырный", weight: "30 г", desc: "Нежный сырный соус.", price: 55, img: "" },
+            { name: "Соус Барбекю", weight: "30 г", desc: "Дымный соус барбекю.", price: 55, img: "" },
+            { name: "Соус Кисло-сладкий", weight: "30 г", desc: "Азиатский кисло-сладкий соус.", price: 55, img: "" },
+            { name: "Соус Острый", weight: "30 г", desc: "Острый соус с чили.", price: 55, img: "" },
+            { name: "Соус Чесночный", weight: "30 г", desc: "Ароматный чесночный соус.", price: 55, img: "" },
+            { name: "Соус Томатный", weight: "30 г", desc: "Классический томатный соус.", price: 55, img: "" },
+            { name: "Соус Тар-тар", weight: "30 г", desc: "Классический соус тар-тар.", price: 55, img: "" },
+            { name: "Сметана", weight: "30 г", desc: "Домашняя сметана.", price: 55, img: "" },
+            { name: "Аджика", weight: "30 г", desc: "Острая аджика.", price: 55, img: "" },
+            { name: "Нутелла", weight: "30 г", desc: "Шоколадная паста.", price: 55, img: "" }
+        ],
+        // ==================== ВЕЧЕРНЕЕ МЕНЮ (с 15:00) ====================
+        evening: [
+            { name: "Курица с овощами и рисом", weight: "350 г", desc: "Нежная курица, обжаренная с хрустящими овощами и рассыпчатым рисом.", price: 420, img: "" },
+            { name: "Котлета по-чайхански с пюре", weight: "350 г", desc: "Сочная котлета по-чайхански с нежным картофельным пюре и красным апельсином.", price: 370, img: "" },
+            { name: "Плов по-чайхански", weight: "420 г", desc: "Сытный плов с говядиной, курдюком и золотистым рисом по чайханскому рецепту.", price: 400, img: "" },
+            { name: "Чахохбили с картофелем", weight: "350 г", desc: "Аппетитное чахохбили с хрустящим картофелем фри и свежей зеленью.", price: 400, img: "" },
+            { name: "Жульен с грибами", weight: "120 г", desc: "Нежный жульен с ароматными грибами под хрустящей сырной корочкой.", price: 180, img: "" }
+        ],
+        // ==================== ГОРЯЧЕЕ (HOT DISHES) ====================
         hot: [
-            { name: "Лагман", desc: "Говядина, овощи, лапша", price: 320, img: "" },
-            { name: "Плов Вадуд", desc: "Рис, баранина, морковь", price: 350, img: "" },
-            { name: "Манты", desc: "Тесто, говядина, лук", price: 280, img: "" }
+            { name: "Плов классический", weight: "420 г", desc: "Сытный плов с говядиной, морковью и золотистым рисом по классическому рецепту.", price: 300, img: "" },
+            { name: "Мясо по-чайхански", weight: "320 г", desc: "Сочная говядина, томленая с картофелем и томатами черри в собственном соку.", price: 490, img: "" },
+            { name: "Манты по-узбекски", weight: "300 г", desc: "Ароматные узбекские манты с сочной говядиной и восточными специями.", price: 280, img: "" },
+            { name: "Сытное комбо", weight: "420 г", desc: "Сытный обед с пловом и сочным люля-кебабом. В комплекте: капустный салат, говяжий бульон и красный соус.", price: 540, img: "" },
+            { name: "Самаркандский плов", weight: "460 г", desc: "Плов по-самаркандски с рисом Лазер, говядиной и красной морковью. Подается с бульоном, овощами и перепелиными яйцами.", price: 370, img: "" }
         ],
+        // ==================== МАНГАЛ / GRILL ====================
+        grill: [
+            { name: "Стейк из семги", weight: "260 г", desc: "Нежный стейк из свежей семги на мангале.", price: 830, img: "" },
+            { name: "Корейка ягненка", weight: "330 г", desc: "Ароматная корейка молодого ягненка на мангале.", price: 495, img: "" },
+            { name: "Форель на мангале", weight: "300 г", desc: "Сочная форель, запеченная на мангале.", price: 780, img: "" },
+            { name: "Люля из курицы", weight: "200 г", desc: "Сочная люля-кебаб из куриного филе.", price: 270, img: "" },
+            { name: "Крылышки гриль", weight: "330 г", desc: "Куриные крылышки, запеченные на гриле.", price: 265, img: "" },
+            { name: "Шашлык из говядины", weight: "230 г", desc: "Сочный шашлык из мраморной говядины.", price: 430, img: "" },
+            { name: "Шашлык из курицы", weight: "230 г", desc: "Нежный шашлык из куриного филе.", price: 310, img: "" },
+            { name: "Шашлык из баранины", weight: "230 г", desc: "Ароматный шашлык из молодой баранины.", price: 440, img: "" },
+            { name: "Люля из говядины", weight: "200 г", desc: "Сочная люля-кебаб из говядины.", price: 310, img: "" }
+        ],
+        // ==================== ШАУРМА ====================
         shawarma: [
-            { name: "Шаурма Классический", desc: "Курица, салат, томат, картофель, соус", price: 300, img: "" },
-            { name: "Шаурма по-Азиатски", desc: "Курица, огурец, морковка, картофель", price: 300, img: "" },
-            { name: "Шаурма Кислосладкий", desc: "Курица, сыр, картофель, соус тайский", price: 320, img: "" },
-            { name: "Шаурма Сырный", desc: "Курица, томат, картофель, сыр", price: 330, img: "" },
-            { name: "Шаурма по-Деревенский", desc: "Курица, картофель, BBQ-соус", price: 340, img: "" },
-            { name: "Шаурма от Шефа", desc: "Курица, овощи гриль, баклажан", price: 380, img: "" },
-            { name: "Донер Вадуд", desc: "Курица х2, баклажан, BBQ-соус", price: 390, img: "" },
-            { name: "Шаурма Острый", desc: "Курица, томат, соус красный", price: 310, img: "" }
+            { name: "Шаурма Классический", weight: "350 г", desc: "Курица, микс салат, томат, картофель, соус красный, соус белый, лаваш", price: 300, img: "" },
+            { name: "Шаурма по-Азиатски", weight: "350 г", desc: "Курица, огурец маринованный, морковка по-корейски, картофель, соус белый, лаваш", price: 300, img: "" },
+            { name: "Шаурма Кислосладкий", weight: "350 г", desc: "Курица, микс салат, сыр, картофель, соус белый, соус тайский, лаваш", price: 320, img: "" },
+            { name: "Шаурма Сырный", weight: "350 г", desc: "Курица, микс салат, томат, картофель, сыр, соус белый, соус красный, лаваш", price: 330, img: "" },
+            { name: "Шаурма по-Деревенский", weight: "350 г", desc: "Курица, микс салат, картофель по-деревенски, огурцы, BBQ-соус, лаваш", price: 340, img: "" },
+            { name: "Шаурма от Шефа", weight: "380 г", desc: "Курица, микс салат, овощи гриль, шампиньоны, баклажан, соусы, лаваш", price: 380, img: "" },
+            { name: "Донер Вадуд", weight: "400 г", desc: "Курица х2, микс салат, баклажан гриль, картофель, BBQ-соус, белый соус, лаваш", price: 390, img: "" },
+            { name: "Шаурма Острый", weight: "350 г", desc: "Курица, микс салат, томат, картофель, соус красный, соус белый, лаваш", price: 310, img: "" }
         ],
+        // ==================== БУРГЕРЫ ====================
         burgers: [
-            { name: "Бургер Классика", desc: "Котлета, салат, огурец, помидор", price: 300, img: "" },
-            { name: "Гамбургер х2", desc: "Котлета х2, сыр, BBQ-соус", price: 380, img: "" },
-            { name: "Чизбургер", desc: "Котлета, сыр чедр, сырный соус", price: 330, img: "" },
-            { name: "Бургер Пепперони", desc: "Котлета, моцарелла, пепперони", price: 340, img: "" },
-            { name: "Бургер Креветки", desc: "Креветки 7-8 шт, белый соус", price: 420, img: "" },
-            { name: "Бургер Жгучий", desc: "Котлета, чилли, халапени", price: 350, img: "" },
-            { name: "BBQ – Брут", desc: "Котлета, BBQ-соус, яйцо", price: 360, img: "" }
+            { name: "Бургер Классика", weight: "250 г", desc: "Котлета, салат айсберг, огурец маринованный, помидор, BBQ-соус", price: 300, img: "" },
+            { name: "Гамбургер х2", weight: "320 г", desc: "Котлета х2, салат, моцарелла, чедр, BBQ-соус, огурец, помидор", price: 380, img: "" },
+            { name: "Чизбургер", weight: "280 г", desc: "Котлета, сыр чедр, сырный соус, салат, огурец, помидор", price: 330, img: "" },
+            { name: "Бургер Пепперони", weight: "280 г", desc: "Котлета, моцарелла, пепперони, салат, BBQ-соус", price: 340, img: "" },
+            { name: "Бургер Креветки", weight: "250 г", desc: "Креветки 7-8 шт, белый соус, салат айсберг, огурец", price: 420, img: "" },
+            { name: "Бургер Жгучий", weight: "300 г", desc: "Котлета, чили, халапени, салат, огурец, помидор", price: 350, img: "" },
+            { name: "BBQ – Брут", weight: "320 г", desc: "Котлета, BBQ-соус, яйцо, халапеньо, салат, огурец", price: 360, img: "" },
+            { name: "Бургер Хрустящий Фермер", weight: "300 г", desc: "Курица в панировке, яйцо, горчичный соус, салат, огурец", price: 370, img: "" },
+            { name: "Бургер Корейский", weight: "300 г", desc: "Курица гриль, корейская морковка, BBQ-соус, салат, огурец", price: 350, img: "" },
+            { name: "Бургер Супер Моцарелла", weight: "300 г", desc: "Котлета, моцарелла, BBQ-соус, салат, помидор", price: 380, img: "" },
+            { name: "Бургер Вадуд", weight: "320 г", desc: "Котлета, баклажан, белый соус, салат, огурец, помидор", price: 390, img: "" },
+            { name: "Бургер Кислый Курочка", weight: "280 г", desc: "Курица в панировке, белый соус, соус арое, салат, огурец", price: 360, img: "" }
         ],
+        // ==================== ПИЦЦА ====================
         pizza: [
-            { name: "Маргарита", desc: "Моцарелла, томатный соус", price: 350, img: "" },
-            { name: "Пепперони", desc: "Пепперони, сыр", price: 380, img: "" }
+            { name: "Маргарита", weight: "500 г", desc: "Моцарелла, томатный соус, базилик", price: 350, img: "" },
+            { name: "Пепперони", weight: "500 г", desc: "Пикантная пепперони, сыр, томатный соус", price: 380, img: "" }
         ],
-        tea: [
-            { name: "Чай черный", desc: "Цейлонский чай", price: 80, img: "" },
-            { name: "Чай зеленый", desc: "Зеленый чай, мята", price: 90, img: "" }
+        // ==================== ХОТ-ДОГ ====================
+        hotdogs: [
+            { name: "Хот-дог Классик", weight: "200 г", desc: "Сосиска, булочка, кетчуп, горчица, лук", price: 200, img: "" },
+            { name: "Хот-дог с сыром", weight: "220 г", desc: "Сосиска, сыр, соус, овощи", price: 240, img: "" }
         ],
-        coffee: [
-            { name: "Американо", desc: "Эспрессо + вода", price: 120, img: "" },
-            { name: "Латте", desc: "Кофе, молоко", price: 160, img: "" }
+        // ==================== НАПИТКИ ====================
+        drinks: [
+            { name: "Чай черный", weight: "300 мл", desc: "Цейлонский чай, сахар по желанию", price: 80, img: "" },
+            { name: "Чай зеленый", weight: "300 мл", desc: "Зеленый чай, мята", price: 90, img: "" },
+            { name: "Американо", weight: "200 мл", desc: "Эспрессо + вода", price: 120, img: "" },
+            { name: "Латте", weight: "250 мл", desc: "Кофе, молоко, пенка", price: 160, img: "" },
+            { name: "Мохито Классический", weight: "350 мл", desc: "Мята, лайм, содовая, сироп", price: 250, img: "" },
+            { name: "Мохито Клубничный", weight: "350 мл", desc: "Клубника, мята, лайм", price: 280, img: "" }
         ]
     };
     
-    const categories = {
-        hot: "Горячие блюда",
-        shawarma: "Шаурма",
-        burgers: "Бургеры",
-        pizza: "Пицца",
-        tea: "Чай",
-        coffee: "Кофе"
+    const categoriesList = {
+        breakfast: "🌅 Завтраки",
+        soups: "🥣 Супы",
+        garnishes: "🍟 Гарниры",
+        sauces: "🥫 Соусы",
+        evening: "🌙 Вечернее меню (с 15:00)",
+        hot: "🔥 Горячее",
+        grill: "🥩 Мангал / Grill",
+        shawarma: "🌯 Шаурма",
+        burgers: "🍔 Бургеры",
+        pizza: "🍕 Пицца",
+        hotdogs: "🌭 Хот-доги",
+        drinks: "🥤 Напитки"
     };
     
     let currentUser = JSON.parse(localStorage.getItem('user')) || null;
@@ -747,7 +827,6 @@
         if (existing) existing.qty++;
         else cart.push({ name, price, qty: 1 });
         saveCart();
-        // НЕ открываем корзину автоматически
     }
     
     function removeFromCart(index) {
@@ -909,11 +988,11 @@
         const categoriesDiv = document.getElementById('categories');
         const menuContainer = document.getElementById('menuContainer');
         
-        Object.keys(categories).forEach((key, index) => {
+        Object.keys(categoriesList).forEach((key, index) => {
             const btn = document.createElement('button');
             btn.className = 'cat-btn';
             if (index === 0) btn.classList.add('active');
-            btn.innerText = categories[key];
+            btn.innerText = categoriesList[key];
             btn.onclick = () => {
                 document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
@@ -929,8 +1008,9 @@
             if (cat === Object.keys(menu)[0]) section.classList.add('active');
             section.id = `section-${cat}`;
             
-            let html = `<h2 style="margin-bottom: 20px; color: #10b981;">${categories[cat]}</h2><div class="menu-grid">`;
+            let html = `<h2 style="margin-bottom: 20px; color: #10b981;">${categoriesList[cat]}</h2><div class="menu-grid">`;
             menu[cat].forEach(item => {
+                // 📸 ДЛЯ ДОБАВЛЕНИЯ ФОТО: в поле img: укажи "images/название_фото.jpg"
                 const imgHtml = item.img ? `<img src="${item.img}" alt="${item.name}">` : '<i class="fas fa-utensils" style="font-size: 40px;"></i><br><span style="font-size: 12px;">Фото скоро</span>';
                 html += `
                     <div class="card">
@@ -938,6 +1018,7 @@
                             ${imgHtml}
                         </div>
                         <h3>${item.name}</h3>
+                        <div class="weight">${item.weight}</div>
                         <div class="price">${item.price} ₽</div>
                         <div class="desc">${item.desc}</div>
                         <button class="add-btn" onclick="addToCart('${item.name.replace(/'/g, "\\'")}', ${item.price})">+ В корзину</button>
