@@ -93,6 +93,19 @@
         .btn-gold {
             background: linear-gradient(135deg, #fbbf24, #f59e0b);
             color: black;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-gold i {
+            font-size: 18px;
+            animation: fingerMove 1s ease-in-out infinite;
+        }
+        
+        @keyframes fingerMove {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(5px); }
         }
         
         .cart-btn {
@@ -340,8 +353,47 @@
             transition: 0.3s;
         }
         
+        .order-btn-delivery {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: black;
+        }
+        
         .order-btn:hover {
             transform: scale(0.98);
+        }
+        
+        .address-input {
+            margin-top: 15px;
+            padding: 10px;
+            background: #2a2a2a;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .address-input.active {
+            display: block;
+        }
+        
+        .address-input textarea {
+            width: 100%;
+            padding: 10px;
+            background: #333;
+            border: 1px solid #10b981;
+            color: white;
+            border-radius: 8px;
+            margin-top: 8px;
+            font-family: inherit;
+            resize: vertical;
+        }
+        
+        .warning-text {
+            background: rgba(251, 191, 36, 0.2);
+            border-left: 3px solid #fbbf24;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: #fbbf24;
+            border-radius: 5px;
         }
         
         .modal {
@@ -375,7 +427,7 @@
             margin-bottom: 20px;
         }
         
-        .modal-content input {
+        .modal-content input, .modal-content textarea {
             width: 100%;
             padding: 12px;
             margin: 10px 0;
@@ -383,6 +435,7 @@
             border: 1px solid #333;
             color: white;
             border-radius: 8px;
+            font-family: inherit;
         }
         
         .modal-content button {
@@ -471,6 +524,7 @@
             .footer-links { flex-direction: column; gap: 10px; }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 <div class="top-bar"></div>
@@ -485,7 +539,9 @@
             </div>
         </div>
         <div class="nav-buttons">
-            <button class="btn btn-gold" onclick="openCart()">📞 Предзаказ</button>
+            <button class="btn btn-gold" onclick="openCart()">
+                <i class="fas fa-hand-point-up"></i> Предзаказ
+            </button>
             <button class="btn cart-btn" onclick="openCart()">
                 🛒 Корзина <span class="cart-count" id="cartCount">0</span>
             </button>
@@ -507,7 +563,8 @@
     <div class="cart-footer">
         <div class="cart-total" id="cartTotal">Итого: 0 ₽</div>
         <div class="order-buttons">
-            <button class="order-btn" onclick="showConfirmOrder()">🏪 Заказать самовывоз</button>
+            <button class="order-btn" onclick="showPickupOrder()">🏪 Самовывоз</button>
+            <button class="order-btn order-btn-delivery" onclick="showDeliveryOrder()">🚚 Доставка (+250₽)</button>
         </div>
     </div>
 </div>
@@ -522,12 +579,25 @@
     </div>
 </div>
 
+<div id="deliveryModal" class="modal">
+    <div class="modal-content">
+        <h2>🚚 Оформление доставки</h2>
+        <div class="warning-text">
+            ⚠️ Внимание! Доставка готовых блюд осуществляется до подъезда
+        </div>
+        <textarea id="deliveryAddress" rows="3" placeholder="Введите ваш адрес доставки (улица, дом, квартира, подъезд)"></textarea>
+        <button class="btn-green" onclick="confirmDeliveryOrder()">✅ Подтвердить заказ с доставкой</button>
+        <button class="btn-gray" onclick="closeModal('deliveryModal')">❌ Отмена</button>
+    </div>
+</div>
+
 <div id="confirmModal" class="modal">
     <div class="modal-content">
         <h2>📋 Подтверждение заказа</h2>
         <div id="confirmOrderList" style="max-height: 300px; overflow-y: auto;"></div>
         <div id="confirmTotal" style="font-size: 20px; font-weight: bold; margin: 15px 0; color: #fbbf24;"></div>
-        <button class="btn-green" onclick="sendOrder()">✅ Подтвердить заказ</button>
+        <div id="deliveryInfo" style="margin: 10px 0; padding: 10px; background: #2a2a2a; border-radius: 8px; display: none;"></div>
+        <button class="btn-green" onclick="sendFinalOrder()">✅ Подтвердить заказ</button>
         <button class="btn-gray" onclick="closeModal('confirmModal')">❌ Отмена</button>
     </div>
 </div>
@@ -555,9 +625,10 @@
                 <p>📅 Дата начала: 2024 г.</p>
             </div>
             <div class="footer-block">
-                <h4>👨‍💻 Создатель сайта</h4>
+                <h4>👨‍💻 Разработчик</h4>
                 <p>Хамидов Хикматулло</p>
-                <p>Выпускник КнАГУ</p>
+                <p>Выпускник Комсомольского-на-Амуре государственного университета (КнАГУ)</p>
+                <p>Год окончания: 2025</p>
                 <p>📞 +7 996 682-46-81</p>
                 <p>✉️ khamidovhikmat2@gmail.com</p>
             </div>
@@ -576,6 +647,10 @@
 <script>
     const BOT_TOKEN = "8608678770:AAHGYqnZLedOd9U_wK2euMTIO29IeZQVvhs";
     const CHAT_ID = "6714067724";
+    const DELIVERY_FEE = 250;
+    
+    let currentOrderType = null;
+    let currentAddress = null;
     
     const menu = {
         hot: [
@@ -672,7 +747,7 @@
         if (existing) existing.qty++;
         else cart.push({ name, price, qty: 1 });
         saveCart();
-        openCart();
+        // НЕ открываем корзину автоматически
     }
     
     function removeFromCart(index) {
@@ -709,17 +784,45 @@
         }
     }
     
-    function showConfirmOrder() {
+    function showPickupOrder() {
         if (cart.length === 0) {
             alert('Корзина пуста!');
             return;
         }
-        
         if (!currentUser) {
             openModal('authModal');
             return;
         }
-        
+        currentOrderType = 'pickup';
+        currentAddress = null;
+        showConfirmOrderModal();
+    }
+    
+    function showDeliveryOrder() {
+        if (cart.length === 0) {
+            alert('Корзина пуста!');
+            return;
+        }
+        if (!currentUser) {
+            openModal('authModal');
+            return;
+        }
+        currentOrderType = 'delivery';
+        openModal('deliveryModal');
+    }
+    
+    function confirmDeliveryOrder() {
+        const address = document.getElementById('deliveryAddress').value;
+        if (!address.trim()) {
+            alert('Пожалуйста, введите адрес доставки');
+            return;
+        }
+        currentAddress = address;
+        closeModal('deliveryModal');
+        showConfirmOrderModal();
+    }
+    
+    function showConfirmOrderModal() {
         let orderHtml = '';
         let total = 0;
         cart.forEach(item => {
@@ -731,18 +834,29 @@
             </div>`;
         });
         
+        if (currentOrderType === 'delivery') {
+            total += DELIVERY_FEE;
+            orderHtml += `<div style="display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #fbbf24; color: #fbbf24;">
+                <span>🚚 Доставка</span>
+                <span>+${DELIVERY_FEE} ₽</span>
+            </div>`;
+        }
+        
         document.getElementById('confirmOrderList').innerHTML = orderHtml;
         document.getElementById('confirmTotal').innerHTML = `💰 ИТОГО: ${total} ₽`;
+        
+        const deliveryInfoDiv = document.getElementById('deliveryInfo');
+        if (currentOrderType === 'delivery' && currentAddress) {
+            deliveryInfoDiv.innerHTML = `<strong>📍 Адрес доставки:</strong><br>${currentAddress}`;
+            deliveryInfoDiv.style.display = 'block';
+        } else {
+            deliveryInfoDiv.style.display = 'none';
+        }
+        
         openModal('confirmModal');
     }
     
-    async function sendOrder() {
-        if (!currentUser) {
-            closeModal('confirmModal');
-            openModal('authModal');
-            return;
-        }
-        
+    async function sendFinalOrder() {
         let orderText = "";
         let total = 0;
         cart.forEach(item => {
@@ -751,7 +865,15 @@
             orderText += `• ${item.name} x${item.qty} = ${sum}₽\n`;
         });
         
-        const message = `🍽️ НОВЫЙ ЗАКАЗ 🍽️\n\n👤 Клиент: ${currentUser.name}\n📞 Телефон: ${currentUser.phone}\n\n📦 Заказ:\n${orderText}\n💰 Сумма: ${total}₽\n⏰ Время: ${new Date().toLocaleString('ru-RU')}`;
+        let orderTypeText = currentOrderType === 'pickup' ? '🏪 Самовывоз' : '🚚 Доставка';
+        let message = `🍽️ НОВЫЙ ЗАКАЗ 🍽️\n\n👤 Клиент: ${currentUser.name}\n📞 Телефон: ${currentUser.phone}\n\n📦 Заказ:\n${orderText}`;
+        
+        if (currentOrderType === 'delivery') {
+            total += DELIVERY_FEE;
+            message += `\n🚚 Доставка: +${DELIVERY_FEE}₽\n📍 Адрес: ${currentAddress}`;
+        }
+        
+        message += `\n💰 Сумма к оплате: ${total}₽\n📋 Тип: ${orderTypeText}\n⏰ Время: ${new Date().toLocaleString('ru-RU')}`;
         
         try {
             const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
@@ -771,6 +893,9 @@
                 saveCart();
                 closeModal('confirmModal');
                 closeCart();
+                currentOrderType = null;
+                currentAddress = null;
+                document.getElementById('deliveryAddress').value = '';
             } else {
                 alert('❌ Ошибка отправки. Позвоните нам: +7 (929) 727-90-90');
             }
@@ -806,7 +931,7 @@
             
             let html = `<h2 style="margin-bottom: 20px; color: #10b981;">${categories[cat]}</h2><div class="menu-grid">`;
             menu[cat].forEach(item => {
-                const imgHtml = item.img ? `<img src="${item.img}" alt="${item.name}">` : '<i class="fa-regular fa-image" style="font-size: 40px;"></i><br><span style="font-size: 12px;">Фото скоро</span>';
+                const imgHtml = item.img ? `<img src="${item.img}" alt="${item.name}">` : '<i class="fas fa-utensils" style="font-size: 40px;"></i><br><span style="font-size: 12px;">Фото скоро</span>';
                 html += `
                     <div class="card">
                         <div class="card-img">
