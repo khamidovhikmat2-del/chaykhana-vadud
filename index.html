@@ -18,9 +18,6 @@
             background: white;
         }
         
-        /* ============================================ */
-        /* 🖼️ ФОН - БЕЛЫЙ + КАРТИНКА СВЕРХУ (ПРОЗРАЧНАЯ) */
-        /* ============================================ */
         body::before {
             content: '';
             position: fixed;
@@ -37,7 +34,6 @@
             pointer-events: none;
         }
         
-        /* Контент поверх фона */
         .content-wrapper {
             position: relative;
             z-index: 1;
@@ -190,7 +186,6 @@
             color: black;
         }
         
-        /* Боковое меню */
         .side-menu {
             position: fixed;
             top: 0;
@@ -348,10 +343,6 @@
             gap: 25px;
         }
         
-        /* ============================================ */
-        /* 🥂 КАРТОЧКИ МЕНЮ - СТЕКЛО (Glassmorphism) */
-        /* Прозрачные, с размытием, как стекло */
-        /* ============================================ */
         .card {
             background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(12px);
@@ -734,7 +725,6 @@
     </div>
 </header>
 
-<!-- Боковое меню -->
 <div class="menu-overlay" id="menuOverlay"></div>
 <div class="side-menu" id="sideMenu">
     <div class="side-menu-header">
@@ -864,6 +854,7 @@
     let currentUser = JSON.parse(localStorage.getItem('user')) || null;
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     
+    // ==================== ПОЛНОЕ МЕНЮ ====================
     const menu = {
         breakfast: [
             { name: "Блинчики сладкие с творогом", weight: "200 г", desc: "Тонкие блинчики с нежным творогом", price: 250, img: "" },
@@ -990,7 +981,7 @@
     
     function showPreorder() {
         if (cart.length === 0) { alert('Корзина пуста!'); return; }
-        if (!currentUser) { alert('Пожалуйста, заполните профиль'); openProfileModal(); return; }
+        if (!currentUser) { alert('Заполните профиль'); openProfileModal(); return; }
         let orderText = "", total = 0;
         cart.forEach(item => { const sum = item.price * item.qty; total += sum; orderText += `• ${item.name} x${item.qty} = ${sum}₽\n`; });
         const message = `📞 ПРЕДЗАКАЗ 📞\n\n👤 Клиент: ${currentUser.name}\n📞 Телефон: ${currentUser.phone}\n📍 Адрес: ${currentUser.address || 'не указан'}\n\n📦 Заказ:\n${orderText}\n💰 Сумма: ${total}₽`;
@@ -1034,17 +1025,43 @@
         openModal('confirmModal');
     }
     
+    // Генерация номера заказа
+    function generateOrderNumber() {
+        return Date.now().toString().slice(-6);
+    }
+    
     async function sendFinalOrder() {
         let orderText = "", total = 0;
         cart.forEach(item => { const sum = item.price * item.qty; total += sum; orderText += `• ${item.name} x${item.qty} = ${sum}₽\n`; });
-        let orderTypeText = currentOrderType === 'pickup' ? 'Самовывоз' : 'Доставка';
-        let message = `🍽️ НОВЫЙ ЗАКАЗ 🍽️\n\n👤 Клиент: ${currentUser.name}\n📞 Телефон: ${currentUser.phone}\n\n📦 Заказ:\n${orderText}`;
-        if (currentOrderType === 'delivery') { total += DELIVERY_FEE; message += `\n🚚 Доставка: +${DELIVERY_FEE}₽\n📍 Адрес: ${currentAddress}`; }
+        
+        let orderTypeText = currentOrderType === 'pickup' ? '🏪 Самовывоз' : '🚚 Доставка';
+        let orderNumber = generateOrderNumber();
+        let message = `🍽️ НОВЫЙ ЗАКАЗ #${orderNumber} 🍽️\n\n👤 Клиент: ${currentUser.name}\n📞 Телефон: ${currentUser.phone}\n📍 Адрес: ${currentUser.address || 'не указан'}\n\n📦 Заказ:\n${orderText}`;
+        
+        if (currentOrderType === 'delivery') { total += DELIVERY_FEE; message += `\n🚚 Доставка: +${DELIVERY_FEE}₽\n📍 Адрес доставки: ${currentAddress}`; }
         message += `\n💰 Сумма: ${total}₽\n📋 Тип: ${orderTypeText}`;
+        
+        // Кнопки для принятия/отклонения заказа
+        const keyboard = {
+            inline_keyboard: [[
+                { text: "✅ Принять заказ", callback_data: `accept_${orderNumber}` },
+                { text: "❌ Отклонить заказ", callback_data: `decline_${orderNumber}` }
+            ]]
+        };
+        
         try {
-            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: CHAT_ID, text: message }) });
-            alert(`✅ Заказ отправлен!\nСумма: ${total}₽`);
+            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: message,
+                    reply_markup: keyboard
+                })
+            });
+            alert(`✅ Заказ #${orderNumber} отправлен администратору!`);
             cart = []; saveCart(); closeModal('confirmModal'); closeCart();
+            currentOrderType = null; currentAddress = null;
         } catch(e) { alert('Ошибка. Позвоните +7 (929) 727-90-90'); }
     }
     
@@ -1085,6 +1102,51 @@
     
     loadMenu();
     updateProfileUI();
+    
+    // Проверка новых ответов от бота (для кнопок)
+    let lastUpdateId = 0;
+    async function checkForUpdates() {
+        try {
+            const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?offset=${lastUpdateId + 1}&timeout=30`);
+            const data = await response.json();
+            if (data.ok && data.result.length > 0) {
+                for (const update of data.result) {
+                    lastUpdateId = update.update_id;
+                    if (update.callback_query) {
+                        const callbackData = update.callback_query.data;
+                        const messageText = update.callback_query.message.text;
+                        const orderMatch = messageText.match(/#(\d+)/);
+                        const orderNumber = orderMatch ? orderMatch[1] : 'неизвестен';
+                        
+                        if (callbackData.startsWith('accept_')) {
+                            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    chat_id: CHAT_ID,
+                                    text: `✅ ЗАКАЗ #${orderNumber} ПРИНЯТ!\n\nВы подтвердили этот заказ. Свяжитесь с клиентом для уточнения деталей.\n📞 Телефон клиента: ${messageText.match(/📞 Телефон: ([+\d\s-]+)/)?.[1] || 'не указан'}`
+                                })
+                            });
+                            alert(`✅ Заказ #${orderNumber} принят!`);
+                        } else if (callbackData.startsWith('decline_')) {
+                            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    chat_id: CHAT_ID,
+                                    text: `❌ ЗАКАЗ #${orderNumber} ОТКЛОНЁН!\n\nПожалуйста, свяжитесь с клиентом по номеру: ${messageText.match(/📞 Телефон: ([+\d\s-]+)/)?.[1] || '+7 (929) 727-90-90'}\n\nПричина: свяжитесь с нами для уточнения деталей заказа.`
+                                })
+                            });
+                            alert(`❌ Заказ #${orderNumber} отклонён!`);
+                        }
+                    }
+                }
+            }
+        } catch (e) { console.error('Ошибка проверки обновлений:', e); }
+        setTimeout(checkForUpdates, 5000);
+    }
+    
+    checkForUpdates();
 </script>
 </body>
 </html>
