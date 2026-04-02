@@ -17,9 +17,7 @@
         }
         
         /* ============================================ */
-        /* 🖼️ МЕСТО ДЛЯ ФОНА #1 (ВЕРХНИЙ ФОН) */
-        /* Сюда нужно добавить картинку для верхнего фона */
-        /* Формат: url('images/nazvanie_foto.jpg') */
+        /* 🖼️ ВЕРХНИЙ ФОН (твоя картинка) */
         /* ============================================ */
         body::before {
             content: '';
@@ -28,17 +26,17 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('images/zadni_fon_verx.jpg'); /* ⬅️ СЮДА ВСТАВЬ СВОЮ КАРТИНКУ ДЛЯ ВЕРХНЕГО ФОНА */
+            background-image: url('images/zadni_fon_verx.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            opacity: 0.35;
+            opacity: 0.4;
             z-index: -2;
         }
         
         /* ============================================ */
-        /* 🖼️ МЕСТО ДЛЯ ФОНА #2 (НИЖНИЙ ФОН - МЕНЮ) */
-        /* Сюда можно добавить другую картинку */
+        /* 🎨 НИЖНИЙ ФОН - АТЛАС ХУДЖАНД (народный узор) */
+        /* Рисуем сами в стиле таджикского атласа */
         /* ============================================ */
         body::after {
             content: '';
@@ -47,19 +45,38 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url(''); /* ⬅️ СЮДА ВСТАВЬ КАРТИНКУ ДЛЯ НИЖНЕГО ФОНА (или оставь пустым) */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            opacity: 0.2;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(180, 60, 30, 0.15) 0px,
+                rgba(180, 60, 30, 0.15) 2px,
+                transparent 2px,
+                transparent 8px
+            ),
+            repeating-linear-gradient(
+                -45deg,
+                rgba(200, 100, 40, 0.12) 0px,
+                rgba(200, 100, 40, 0.12) 3px,
+                transparent 3px,
+                transparent 10px
+            ),
+            radial-gradient(circle at 20% 40%, rgba(160, 50, 20, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(140, 40, 15, 0.08) 0%, transparent 50%),
+            repeating-linear-gradient(
+                90deg,
+                rgba(220, 120, 50, 0.1) 0px,
+                rgba(220, 120, 50, 0.1) 1px,
+                transparent 1px,
+                transparent 30px
+            );
             z-index: -1;
+            pointer-events: none;
         }
         
         /* Полупрозрачный слой для читаемости текста */
         .content-wrapper {
             position: relative;
             z-index: 1;
-            background: rgba(10, 10, 10, 0.7);
+            background: rgba(0, 0, 0, 0.4);
             min-height: 100vh;
         }
         
@@ -79,7 +96,7 @@
         }
         
         header {
-            background: rgba(10, 10, 10, 0.9);
+            background: rgba(10, 10, 10, 0.85);
             padding: 15px 0;
             border-bottom: 2px solid #10b981;
             position: sticky;
@@ -115,16 +132,20 @@
             font-weight: bold;
             color: #10b981;
             font-family: 'Cursive';
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
         }
         
         .logo-text h1 {
-            font-size: 24px;
+            font-size: 26px;
             color: #10b981;
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+            letter-spacing: 1px;
         }
         
         .logo-text p {
             font-size: 12px;
             color: #fbbf24;
+            text-shadow: 0 0 5px rgba(251, 191, 36, 0.5);
         }
         
         .nav-buttons {
@@ -314,7 +335,7 @@
             gap: 10px;
             overflow-x: auto;
             padding: 15px 0;
-            background: rgba(26, 26, 26, 0.8);
+            background: rgba(26, 26, 26, 0.6);
             backdrop-filter: blur(5px);
             position: sticky;
             top: 80px;
@@ -353,22 +374,23 @@
         }
         
         /* ============================================ */
-        /* 🎨 КАРТОЧКИ МЕНЮ - ПРОЗРАЧНЫЕ НА 70% */
-        /* Рамка и текст остаются видимыми */
+        /* 🎨 КАРТОЧКИ МЕНЮ - 60% ПРОЗРАЧНЫЕ */
+        /* Только рамка и текст видны, кнопки остаются */
         /* ============================================ */
         .card {
-            background: rgba(26, 26, 26, 0.3);  /* 30% видимости фона, 70% прозрачности */
-            backdrop-filter: blur(10px);         /* Размытие фона за карточкой */
+            background: rgba(26, 26, 26, 0.4);  /* 60% прозрачности */
+            backdrop-filter: blur(8px);
             border-radius: 15px;
             padding: 20px;
-            border: 1px solid rgba(16, 185, 129, 0.5);
+            border: 1px solid rgba(16, 185, 129, 0.6);
             transition: 0.3s;
         }
         
         .card:hover {
             transform: translateY(-5px);
             border-color: #10b981;
-            background: rgba(26, 26, 26, 0.5);
+            background: rgba(26, 26, 26, 0.6);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
         
         .card-img {
@@ -396,6 +418,7 @@
             color: #10b981;
             margin-bottom: 8px;
             font-size: 18px;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
         }
         
         .weight {
@@ -409,13 +432,15 @@
             font-size: 20px;
             font-weight: bold;
             margin: 8px 0;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
         }
         
         .desc {
-            color: #ddd;
+            color: #eee;
             font-size: 13px;
             margin: 8px 0;
             line-height: 1.4;
+            text-shadow: 0 0 3px rgba(0,0,0,0.5);
         }
         
         .add-btn {
@@ -433,6 +458,7 @@
         
         .add-btn:hover {
             transform: scale(0.98);
+            background: #0d9668;
         }
         
         .cart-sidebar {
