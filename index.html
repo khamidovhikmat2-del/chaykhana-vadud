@@ -3,13 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Чайхана Вадуд</title>
+    <title>Чайхана Вадуд | Доставка еды в Альметьевске</title>
+    <meta name="description" content="Чайхана Вадуд - доставка вкусной еды в Альметьевске. Шаурма, бургеры, плов, манты, шашлык. Заказ онлайн.">
+    <meta name="keywords" content="Чайхана Вадуд, доставка еды Альметьевск, шаурма, бургеры, плов">
+    <meta name="author" content="Чайхана Вадуд">
+    <meta name="robots" content="index, follow">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0a0a0a;
             color: white;
+            position: relative;
+        }
+        
+        /* ============================================ */
+        /* 🖼️ МЕСТО ДЛЯ ФОНА #1 (ВЕРХНИЙ ФОН) */
+        /* Сюда нужно добавить картинку для верхнего фона */
+        /* Формат: url('images/nazvanie_foto.jpg') */
+        /* ============================================ */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url(''); /* ⬅️ СЮДА ВСТАВЬ СВОЮ КАРТИНКУ ДЛЯ ВЕРХНЕГО ФОНА */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.35;
+            z-index: -2;
+        }
+        
+        /* ============================================ */
+        /* 🖼️ МЕСТО ДЛЯ ФОНА #2 (НИЖНИЙ ФОН - МЕНЮ) */
+        /* Сюда можно добавить другую картинку */
+        /* ============================================ */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/zadni_fon_verx.jpg'); /* ⬅️ СЮДА ВСТАВЬ КАРТИНКУ ДЛЯ НИЖНЕГО ФОНА (или оставь пустым) */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.2;
+            z-index: -1;
+        }
+        
+        /* Полупрозрачный слой для читаемости текста */
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            background: rgba(10, 10, 10, 0.7);
+            min-height: 100vh;
         }
         
         .top-bar {
@@ -28,13 +79,13 @@
         }
         
         header {
-            background: #0a0a0a;
+            background: rgba(10, 10, 10, 0.9);
             padding: 15px 0;
             border-bottom: 2px solid #10b981;
             position: sticky;
             top: 0;
             z-index: 99;
-            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
         }
         
         .header-inner {
@@ -263,7 +314,8 @@
             gap: 10px;
             overflow-x: auto;
             padding: 15px 0;
-            background: #1a1a1a;
+            background: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(5px);
             position: sticky;
             top: 80px;
             z-index: 98;
@@ -300,29 +352,35 @@
             gap: 25px;
         }
         
+        /* ============================================ */
+        /* 🎨 КАРТОЧКИ МЕНЮ - ПРОЗРАЧНЫЕ НА 70% */
+        /* Рамка и текст остаются видимыми */
+        /* ============================================ */
         .card {
-            background: #1a1a1a;
+            background: rgba(26, 26, 26, 0.3);  /* 30% видимости фона, 70% прозрачности */
+            backdrop-filter: blur(10px);         /* Размытие фона за карточкой */
             border-radius: 15px;
             padding: 20px;
-            border: 1px solid #333;
+            border: 1px solid rgba(16, 185, 129, 0.5);
             transition: 0.3s;
         }
         
         .card:hover {
             transform: translateY(-5px);
             border-color: #10b981;
+            background: rgba(26, 26, 26, 0.5);
         }
         
         .card-img {
             width: 100%;
             height: 180px;
-            background: #2a2a2a;
+            background: rgba(42, 42, 42, 0.5);
             border-radius: 10px;
             margin-bottom: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #666;
+            color: #aaa;
             font-size: 14px;
             overflow: hidden;
             flex-direction: column;
@@ -341,7 +399,7 @@
         }
         
         .weight {
-            color: #888;
+            color: #ccc;
             font-size: 12px;
             margin-bottom: 5px;
         }
@@ -354,7 +412,7 @@
         }
         
         .desc {
-            color: #aaa;
+            color: #ddd;
             font-size: 13px;
             margin: 8px 0;
             line-height: 1.4;
@@ -579,7 +637,7 @@
         }
         
         footer {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             padding: 40px 20px;
             margin-top: 40px;
             border-top: 3px solid #10b981;
@@ -649,6 +707,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+<div class="content-wrapper">
 <div class="top-bar"></div>
 
 <header>
@@ -674,7 +733,7 @@
     </div>
 </header>
 
-<!-- Боковое меню с профилем -->
+<!-- Боковое меню -->
 <div class="menu-overlay" id="menuOverlay"></div>
 <div class="side-menu" id="sideMenu">
     <div class="side-menu-header">
@@ -792,6 +851,7 @@
         </div>
     </div>
 </footer>
+</div>
 
 <script>
     const BOT_TOKEN = "8608678770:AAHGYqnZLedOd9U_wK2euMTIO29IeZQVvhs";
@@ -805,118 +865,52 @@
     
     const menu = {
         breakfast: [
-            { name: "Блинчики сладкие с творогом", weight: "200 г", desc: "Тонкие блинчики с нежным творогом и кислинкой летних ягод.", price: 250, img: "" },
-            { name: "Блинчики сладкие со сливками", weight: "200 г", desc: "Тонкие блинчики с нежными сливками.", price: 190, img: "" },
-            { name: "Блинчики сладкие с вареньем", weight: "200 г", desc: "Тонкие блинчики с домашним вареньем.", price: 190, img: "" },
-            { name: "Яичница глазунья", weight: "230 г", desc: "Солнечная глазунья из трёх яиц с овощами.", price: 160, img: "" },
-            { name: "Омлет", weight: "350 г", desc: "Пышный омлет с ветчиной и сыром.", price: 290, img: "" },
-            { name: "Блинчики с сыром и ветчиной", weight: "200 г", desc: "Блинчики с расплавленным сыром и ветчиной.", price: 250, img: "" },
-            { name: "Овсяная каша", weight: "300 г", desc: "Нежная овсяная каша с ягодами и гранолой.", price: 200, img: "" },
-            { name: "Манная каша", weight: "300 г", desc: "Манная каша с маслом и ягодами.", price: 200, img: "" },
-            { name: "Бодрое утро", weight: "330 г", desc: "Два яйца, сосиски, авокадо и творожный сыр.", price: 350, img: "" },
-            { name: "Сырники", weight: "180 г", desc: "Сырники по-бабушкиному рецепту со сметаной.", price: 230, img: "" },
-            { name: "Рисовая каша", weight: "300 г", desc: "Сливочная рисовая каша с ягодами.", price: 200, img: "" }
+            { name: "Блинчики сладкие с творогом", weight: "200 г", desc: "Тонкие блинчики с нежным творогом", price: 250, img: "" },
+            { name: "Блинчики сладкие со сливками", weight: "200 г", desc: "Тонкие блинчики с нежными сливками", price: 190, img: "" },
+            { name: "Яичница глазунья", weight: "230 г", desc: "Солнечная глазунья из трёх яиц", price: 160, img: "" },
+            { name: "Омлет", weight: "350 г", desc: "Пышный омлет с ветчиной и сыром", price: 290, img: "" },
+            { name: "Сырники", weight: "180 г", desc: "Сырники по-бабушкиному рецепту", price: 230, img: "" }
         ],
         soups: [
-            { name: "Шурпа из баранины", weight: "400 г", desc: "Насыщенная шурпа с нежной бараниной и овощами.", price: 290, img: "" },
-            { name: "Суп лапша из курицы", weight: "350 г", desc: "Ароматный куриный суп с лапшой.", price: 190, img: "" },
-            { name: "Борщ с говядиной", weight: "350 г", desc: "Наваристый борщ со сметаной.", price: 240, img: "" },
-            { name: "Шурпа из говядины", weight: "400 г", desc: "Ароматная шурпа с говядиной.", price: 280, img: "" },
-            { name: "Пельмени с бульоном", weight: "350 г", desc: "Нежные пельмени с говядиной в бульоне.", price: 250, img: "" },
-            { name: "Лагман", weight: "400 г", desc: "Насыщенный лагман с говядиной и тянутой лапшой.", price: 300, img: "" }
-        ],
-        garnishes: [
-            { name: "Картофель фри", weight: "130 г", desc: "Хрустящий картофель фри.", price: 130, img: "" },
-            { name: "Картофель по-деревенски", weight: "130 г", desc: "Картофель дольками с травами.", price: 135, img: "" },
-            { name: "Лепешка кулча", weight: "1 шт", desc: "Ароматная узбекская лепешка.", price: 50, img: "" }
-        ],
-        sauces: [
-            { name: "Соус Сырный", weight: "30 г", desc: "Нежный сырный соус.", price: 55, img: "" },
-            { name: "Соус Барбекю", weight: "30 г", desc: "Дымный соус барбекю.", price: 55, img: "" },
-            { name: "Соус Кисло-сладкий", weight: "30 г", desc: "Азиатский кисло-сладкий соус.", price: 55, img: "" },
-            { name: "Соус Острый", weight: "30 г", desc: "Острый соус с чили.", price: 55, img: "" },
-            { name: "Соус Чесночный", weight: "30 г", desc: "Ароматный чесночный соус.", price: 55, img: "" },
-            { name: "Соус Томатный", weight: "30 г", desc: "Классический томатный соус.", price: 55, img: "" }
-        ],
-        evening: [
-            { name: "Курица с овощами и рисом", weight: "350 г", desc: "Нежная курица с овощами и рисом.", price: 420, img: "" },
-            { name: "Котлета по-чайхански с пюре", weight: "350 г", desc: "Сочная котлета с пюре.", price: 370, img: "" },
-            { name: "Плов по-чайхански", weight: "420 г", desc: "Сытный плов с говядиной.", price: 400, img: "" },
-            { name: "Чахохбили с картофелем", weight: "350 г", desc: "Аппетитное чахохбили с картофелем.", price: 400, img: "" },
-            { name: "Жульен с грибами", weight: "120 г", desc: "Нежный жульен с грибами под сыром.", price: 180, img: "" }
-        ],
-        hot: [
-            { name: "Плов классический", weight: "420 г", desc: "Плов с говядиной по классическому рецепту.", price: 300, img: "" },
-            { name: "Мясо по-чайхански", weight: "320 г", desc: "Говядина с картофелем и томатами.", price: 490, img: "" },
-            { name: "Манты по-узбекски", weight: "300 г", desc: "Ароматные манты с говядиной.", price: 280, img: "" },
-            { name: "Сытное комбо", weight: "420 г", desc: "Плов с люля-кебабом и салатом.", price: 540, img: "" },
-            { name: "Самаркандский плов", weight: "460 г", desc: "Плов по-самаркандски с яйцами.", price: 370, img: "" }
-        ],
-        grill: [
-            { name: "Стейк из семги", weight: "260 г", desc: "Нежный стейк из семги.", price: 830, img: "" },
-            { name: "Корейка ягненка", weight: "330 г", desc: "Ароматная корейка ягненка.", price: 495, img: "" },
-            { name: "Форель на мангале", weight: "300 г", desc: "Сочная форель на мангале.", price: 780, img: "" },
-            { name: "Люля из курицы", weight: "200 г", desc: "Сочная люля-кебаб из курицы.", price: 270, img: "" },
-            { name: "Крылышки гриль", weight: "330 г", desc: "Куриные крылышки гриль.", price: 265, img: "" },
-            { name: "Шашлык из говядины", weight: "230 г", desc: "Сочный шашлык из говядины.", price: 430, img: "" },
-            { name: "Шашлык из курицы", weight: "230 г", desc: "Нежный шашлык из курицы.", price: 310, img: "" },
-            { name: "Шашлык из баранины", weight: "230 г", desc: "Ароматный шашлык из баранины.", price: 440, img: "" },
-            { name: "Люля из говядины", weight: "200 г", desc: "Сочная люля-кебаб из говядины.", price: 310, img: "" }
+            { name: "Шурпа из баранины", weight: "400 г", desc: "Насыщенная шурпа с нежной бараниной", price: 290, img: "" },
+            { name: "Лагман", weight: "400 г", desc: "Насыщенный лагман с говядиной", price: 300, img: "" },
+            { name: "Борщ с говядиной", weight: "350 г", desc: "Наваристый борщ со сметаной", price: 240, img: "" }
         ],
         shawarma: [
-            { name: "Шаурма Классический", weight: "350 г", desc: "Курица, салат, томат, картофель, соусы.", price: 300, img: "" },
-            { name: "Шаурма по-Азиатски", weight: "350 г", desc: "Курица, огурец, морковка, картофель.", price: 300, img: "" },
-            { name: "Шаурма Кислосладкий", weight: "350 г", desc: "Курица, сыр, картофель, соус тайский.", price: 320, img: "" },
-            { name: "Шаурма Сырный", weight: "350 г", desc: "Курица, сыр, томат, картофель.", price: 330, img: "" },
-            { name: "Шаурма по-Деревенский", weight: "350 г", desc: "Курица, картофель, BBQ-соус.", price: 340, img: "" },
-            { name: "Шаурма от Шефа", weight: "380 г", desc: "Курица, овощи гриль, баклажан.", price: 380, img: "" },
-            { name: "Донер Вадуд", weight: "400 г", desc: "Курица х2, баклажан, BBQ-соус.", price: 390, img: "" },
-            { name: "Шаурма Острый", weight: "350 г", desc: "Курица, томат, острый соус.", price: 310, img: "" }
+            { name: "Шаурма Классический", weight: "350 г", desc: "Курица, салат, томат, картофель, соусы", price: 300, img: "" },
+            { name: "Шаурма по-Азиатски", weight: "350 г", desc: "Курица, огурец, морковка по-корейски", price: 300, img: "" },
+            { name: "Шаурма Сырный", weight: "350 г", desc: "Курица, сыр, томат, картофель", price: 330, img: "" },
+            { name: "Донер Вадуд", weight: "400 г", desc: "Курица х2, баклажан, BBQ-соус", price: 390, img: "" }
         ],
         burgers: [
-            { name: "Бургер Классика", weight: "250 г", desc: "Котлета, салат, огурец, помидор.", price: 300, img: "" },
-            { name: "Гамбургер х2", weight: "320 г", desc: "Котлета х2, сыр, BBQ-соус.", price: 380, img: "" },
-            { name: "Чизбургер", weight: "280 г", desc: "Котлета, сыр чедр, сырный соус.", price: 330, img: "" },
-            { name: "Бургер Пепперони", weight: "280 г", desc: "Котлета, моцарелла, пепперони.", price: 340, img: "" },
-            { name: "Бургер Креветки", weight: "250 г", desc: "Креветки 7-8 шт, белый соус.", price: 420, img: "" },
-            { name: "Бургер Жгучий", weight: "300 г", desc: "Котлета, чили, халапени.", price: 350, img: "" },
-            { name: "BBQ – Брут", weight: "320 г", desc: "Котлета, BBQ-соус, яйцо.", price: 360, img: "" },
-            { name: "Бургер Хрустящий Фермер", weight: "300 г", desc: "Курица в панировке, яйцо.", price: 370, img: "" },
-            { name: "Бургер Корейский", weight: "300 г", desc: "Курица гриль, корейская морковка.", price: 350, img: "" },
-            { name: "Бургер Супер Моцарелла", weight: "300 г", desc: "Котлета, моцарелла.", price: 380, img: "" },
-            { name: "Бургер Вадуд", weight: "320 г", desc: "Котлета, баклажан, белый соус.", price: 390, img: "" },
-            { name: "Бургер Кислый Курочка", weight: "280 г", desc: "Курица в панировке, белый соус.", price: 360, img: "" }
+            { name: "Бургер Классика", weight: "250 г", desc: "Котлета, салат, огурец, помидор", price: 300, img: "" },
+            { name: "Чизбургер", weight: "280 г", desc: "Котлета, сыр чедр, сырный соус", price: 330, img: "" },
+            { name: "Бургер Вадуд", weight: "320 г", desc: "Котлета, баклажан, белый соус", price: 390, img: "" }
         ],
-        pizza: [
-            { name: "Маргарита", weight: "500 г", desc: "Моцарелла, томатный соус.", price: 350, img: "" },
-            { name: "Пепперони", weight: "500 г", desc: "Пикантная пепперони, сыр.", price: 380, img: "" }
+        grill: [
+            { name: "Шашлык из говядины", weight: "230 г", desc: "Сочный шашлык из говядины", price: 430, img: "" },
+            { name: "Шашлык из курицы", weight: "230 г", desc: "Нежный шашлык из курицы", price: 310, img: "" },
+            { name: "Люля из говядины", weight: "200 г", desc: "Сочная люля-кебаб", price: 310, img: "" }
         ],
-        hotdogs: [
-            { name: "Хот-дог Классик", weight: "200 г", desc: "Сосиска, кетчуп, горчица.", price: 200, img: "" },
-            { name: "Хот-дог с сыром", weight: "220 г", desc: "Сосиска, сыр, соус.", price: 240, img: "" }
+        hot: [
+            { name: "Плов классический", weight: "420 г", desc: "Плов с говядиной", price: 300, img: "" },
+            { name: "Манты по-узбекски", weight: "300 г", desc: "Манты с говядиной", price: 280, img: "" },
+            { name: "Плов по-чайхански", weight: "420 г", desc: "Плов с говядиной по-чайхански", price: 400, img: "" }
         ],
         drinks: [
-            { name: "Чай черный", weight: "300 мл", desc: "Цейлонский чай.", price: 80, img: "" },
-            { name: "Чай зеленый", weight: "300 мл", desc: "Зеленый чай с мятой.", price: 90, img: "" },
-            { name: "Американо", weight: "200 мл", desc: "Эспрессо + вода.", price: 120, img: "" },
-            { name: "Латте", weight: "250 мл", desc: "Кофе с молоком.", price: 160, img: "" },
-            { name: "Мохито Классический", weight: "350 мл", desc: "Мята, лайм, содовая.", price: 250, img: "" },
-            { name: "Мохито Клубничный", weight: "350 мл", desc: "Клубника, мята, лайм.", price: 280, img: "" }
+            { name: "Чай черный", weight: "300 мл", desc: "Цейлонский чай", price: 80, img: "" },
+            { name: "Латте", weight: "250 мл", desc: "Кофе с молоком", price: 160, img: "" },
+            { name: "Мохито Классический", weight: "350 мл", desc: "Мята, лайм, содовая", price: 250, img: "" }
         ]
     };
     
     const categoriesList = {
         breakfast: "🌅 Завтраки",
         soups: "🥣 Супы",
-        garnishes: "🍟 Гарниры",
-        sauces: "🥫 Соусы",
-        evening: "🌙 Вечернее меню (с 15:00)",
-        hot: "🔥 Горячее",
-        grill: "🥩 Мангал / Grill",
         shawarma: "🌯 Шаурма",
         burgers: "🍔 Бургеры",
-        pizza: "🍕 Пицца",
-        hotdogs: "🌭 Хот-доги",
+        grill: "🥩 Мангал / Grill",
+        hot: "🔥 Горячее",
         drinks: "🥤 Напитки"
     };
     
@@ -993,38 +987,35 @@
         alert('Вы вышли из аккаунта');
     }
     
-    // Предзаказ (звонок + Telegram)
     function showPreorder() {
         if (cart.length === 0) { alert('Корзина пуста!'); return; }
-        if (!currentUser) { openModal('authModal'); return; }
-        let orderText = "";
-        let total = 0;
+        if (!currentUser) { alert('Пожалуйста, заполните профиль'); openProfileModal(); return; }
+        let orderText = "", total = 0;
         cart.forEach(item => { const sum = item.price * item.qty; total += sum; orderText += `• ${item.name} x${item.qty} = ${sum}₽\n`; });
-        const message = `📞 ПРЕДЗАКАЗ 📞\n\n👤 Клиент: ${currentUser.name}\n📞 Телефон: ${currentUser.phone}\n📍 Адрес: ${currentUser.address || 'не указан'}\n\n📦 Заказ:\n${orderText}\n💰 Сумма: ${total}₽\n⏰ Время: ${new Date().toLocaleString('ru-RU')}`;
-        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: CHAT_ID, text: message, parse_mode: 'HTML' }) })
-            .then(() => { alert(`✅ Предзаказ отправлен!\n\nСумма: ${total}₽\nПозвоните для подтверждения: +7 (929) 727-90-90`); })
-            .catch(() => alert('Ошибка отправки. Позвоните +7 (929) 727-90-90'));
-        window.location.href = `tel:+79297279090`;
+        const message = `📞 ПРЕДЗАКАЗ 📞\n\n👤 Клиент: ${currentUser.name}\n📞 Телефон: ${currentUser.phone}\n📍 Адрес: ${currentUser.address || 'не указан'}\n\n📦 Заказ:\n${orderText}\n💰 Сумма: ${total}₽`;
+        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: CHAT_ID, text: message }) })
+            .then(() => alert(`✅ Предзаказ отправлен!\nСумма: ${total}₽\nПозвоните для подтверждения: +7 (929) 727-90-90`))
+            .catch(() => alert('Ошибка. Позвоните +7 (929) 727-90-90'));
+        window.location.href = "tel:+79297279090";
     }
     
     function showPickupOrder() {
         if (cart.length === 0) { alert('Корзина пуста!'); return; }
-        if (!currentUser) { openModal('authModal'); return; }
+        if (!currentUser) { alert('Заполните профиль'); openProfileModal(); return; }
         currentOrderType = 'pickup';
-        currentAddress = null;
         showConfirmOrderModal();
     }
     
     function showDeliveryOrder() {
         if (cart.length === 0) { alert('Корзина пуста!'); return; }
-        if (!currentUser) { openModal('authModal'); return; }
+        if (!currentUser) { alert('Заполните профиль'); openProfileModal(); return; }
         currentOrderType = 'delivery';
         openModal('deliveryModal');
     }
     
     function confirmDeliveryOrder() {
         const address = document.getElementById('deliveryAddress').value;
-        if (!address.trim()) { alert('Введите адрес доставки'); return; }
+        if (!address.trim()) { alert('Введите адрес'); return; }
         currentAddress = address;
         closeModal('deliveryModal');
         showConfirmOrderModal();
@@ -1045,22 +1036,17 @@
     async function sendFinalOrder() {
         let orderText = "", total = 0;
         cart.forEach(item => { const sum = item.price * item.qty; total += sum; orderText += `• ${item.name} x${item.qty} = ${sum}₽\n`; });
-        let orderTypeText = currentOrderType === 'pickup' ? '🏪 Самовывоз' : '🚚 Доставка';
+        let orderTypeText = currentOrderType === 'pickup' ? 'Самовывоз' : 'Доставка';
         let message = `🍽️ НОВЫЙ ЗАКАЗ 🍽️\n\n👤 Клиент: ${currentUser.name}\n📞 Телефон: ${currentUser.phone}\n\n📦 Заказ:\n${orderText}`;
         if (currentOrderType === 'delivery') { total += DELIVERY_FEE; message += `\n🚚 Доставка: +${DELIVERY_FEE}₽\n📍 Адрес: ${currentAddress}`; }
-        message += `\n💰 Сумма к оплате: ${total}₽\n📋 Тип: ${orderTypeText}\n⏰ Время: ${new Date().toLocaleString('ru-RU')}`;
+        message += `\n💰 Сумма: ${total}₽\n📋 Тип: ${orderTypeText}`;
         try {
-            const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: CHAT_ID, text: message, parse_mode: 'HTML' }) });
-            if (response.ok) {
-                alert(`✅ Заказ отправлен!\n\nСумма: ${total}₽\nМы свяжемся с вами!`);
-                cart = []; saveCart(); closeModal('confirmModal'); closeCart();
-                currentOrderType = null; currentAddress = null;
-                document.getElementById('deliveryAddress').value = '';
-            } else alert('❌ Ошибка отправки. Позвоните +7 (929) 727-90-90');
-        } catch (error) { alert('❌ Ошибка. Позвоните +7 (929) 727-90-90'); }
+            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: CHAT_ID, text: message }) });
+            alert(`✅ Заказ отправлен!\nСумма: ${total}₽`);
+            cart = []; saveCart(); closeModal('confirmModal'); closeCart();
+        } catch(e) { alert('Ошибка. Позвоните +7 (929) 727-90-90'); }
     }
     
-    // Меню
     const menuToggle = document.getElementById('menuToggle');
     const sideMenu = document.getElementById('sideMenu');
     const menuOverlay = document.getElementById('menuOverlay');
@@ -1087,8 +1073,7 @@
             section.id = `section-${cat}`;
             let html = `<h2 style="margin-bottom:20px; color:#10b981;">${categoriesList[cat]}</h2><div class="menu-grid">`;
             menu[cat].forEach(item => {
-                const imgHtml = item.img ? `<img src="${item.img}" alt="${item.name}">` : '<i class="fas fa-utensils" style="font-size:40px;"></i><br><span style="font-size:12px;">Фото скоро</span>';
-                html += `<div class="card"><div class="card-img">${imgHtml}</div><h3>${item.name}</h3><div class="weight">${item.weight}</div><div class="price">${item.price} ₽</div><div class="desc">${item.desc}</div><button class="add-btn" onclick="addToCart('${item.name.replace(/'/g, "\\'")}', ${item.price})">+ В корзину</button></div>`;
+                html += `<div class="card"><div class="card-img"><i class="fas fa-utensils" style="font-size:40px;"></i><br><span style="font-size:12px;">Фото скоро</span></div><h3>${item.name}</h3><div class="weight">${item.weight}</div><div class="price">${item.price} ₽</div><div class="desc">${item.desc}</div><button class="add-btn" onclick="addToCart('${item.name.replace(/'/g, "\\'")}', ${item.price})">+ В корзину</button></div>`;
             });
             html += `</div>`;
             section.innerHTML = html;
@@ -1096,26 +1081,6 @@
         });
         updateCartDisplay();
     }
-    
-    // Модалка авторизации для предзаказа
-    const authModal = document.createElement('div');
-    authModal.id = 'authModal';
-    authModal.className = 'modal';
-    authModal.innerHTML = `<div class="modal-content"><h2>📱 Вход / Регистрация</h2><input type="text" id="authName" placeholder="Ваше имя"><input type="tel" id="authPhone" placeholder="Номер телефона"><textarea id="authAddress" rows="2" placeholder="Ваш адрес (необязательно)"></textarea><button class="btn-green" onclick="registerFromAuth()">Войти / Зарегистрироваться</button><button class="btn-gray" onclick="closeModal('authModal')">Закрыть</button></div>`;
-    document.body.appendChild(authModal);
-    
-    window.registerFromAuth = function() {
-        const name = document.getElementById('authName').value;
-        const phone = document.getElementById('authPhone').value;
-        const address = document.getElementById('authAddress').value;
-        if (name && phone) {
-            currentUser = { name, phone, address };
-            localStorage.setItem('user', JSON.stringify(currentUser));
-            updateProfileUI();
-            closeModal('authModal');
-            alert(`✅ Добро пожаловать, ${name}!`);
-        } else alert('Заполните имя и телефон');
-    };
     
     loadMenu();
     updateProfileUI();
