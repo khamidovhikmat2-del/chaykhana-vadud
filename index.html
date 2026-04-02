@@ -85,7 +85,6 @@
         .cart-btn { position: relative; background: rgba(42,42,42,0.8); color: white; padding: 10px 15px; border: 1px solid #10b981; backdrop-filter: blur(5px); }
         .cart-count { position: absolute; top: -5px; right: -5px; background: #10b981; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; display: flex; align-items: center; justify-content: center; color: black; }
         
-        /* Боковое меню */
         .side-menu {
             position: fixed;
             top: 0;
@@ -258,7 +257,6 @@
     </div>
 </header>
 
-<!-- Боковое меню -->
 <div class="menu-overlay" id="menuOverlay"></div>
 <div class="side-menu" id="sideMenu">
     <div class="side-menu-header">
@@ -388,35 +386,58 @@
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     
     const menu = {
-        breakfast: [{ name: "Блинчики сладкие с творогом", weight: "200 г", desc: "Тонкие блинчики с нежным творогом", price: 250, img: "" },
+        breakfast: [
+            { name: "Блинчики сладкие с творогом", weight: "200 г", desc: "Тонкие блинчики с нежным творогом", price: 250, img: "" },
             { name: "Блинчики сладкие со сливками", weight: "200 г", desc: "Тонкие блинчики с нежными сливками", price: 190, img: "" },
             { name: "Яичница глазунья", weight: "230 г", desc: "Солнечная глазунья из трёх яиц", price: 160, img: "" },
             { name: "Омлет", weight: "350 г", desc: "Пышный омлет с ветчиной и сыром", price: 290, img: "" },
-            { name: "Сырники", weight: "180 г", desc: "Сырники по-бабушкиному рецепту", price: 230, img: "" }],
-        soups: [{ name: "Шурпа из баранины", weight: "400 г", desc: "Насыщенная шурпа с нежной бараниной", price: 290, img: "" },
+            { name: "Сырники", weight: "180 г", desc: "Сырники по-бабушкиному рецепту", price: 230, img: "" }
+        ],
+        soups: [
+            { name: "Шурпа из баранины", weight: "400 г", desc: "Насыщенная шурпа с нежной бараниной", price: 290, img: "" },
             { name: "Лагман", weight: "400 г", desc: "Насыщенный лагман с говядиной", price: 300, img: "" },
-            { name: "Борщ с говядиной", weight: "350 г", desc: "Наваристый борщ со сметаной", price: 240, img: "" }],
-        shawarma: [{ name: "Шаурма Классический", weight: "350 г", desc: "Курица, салат, томат, картофель, соусы", price: 300, img: "" },
+            { name: "Борщ с говядиной", weight: "350 г", desc: "Наваристый борщ со сметаной", price: 240, img: "" }
+        ],
+        shawarma: [
+            { name: "Шаурма Классический", weight: "350 г", desc: "Курица, салат, томат, картофель, соусы", price: 300, img: "" },
             { name: "Шаурма по-Азиатски", weight: "350 г", desc: "Курица, огурец, морковка по-корейски", price: 300, img: "" },
             { name: "Шаурма Сырный", weight: "350 г", desc: "Курица, сыр, томат, картофель", price: 330, img: "" },
-            { name: "Донер Вадуд", weight: "400 г", desc: "Курица х2, баклажан, BBQ-соус", price: 390, img: "" }],
-        burgers: [{ name: "Бургер Классика", weight: "250 г", desc: "Котлета, салат, огурец, помидор", price: 300, img: "" },
+            { name: "Донер Вадуд", weight: "400 г", desc: "Курица х2, баклажан, BBQ-соус", price: 390, img: "" }
+        ],
+        burgers: [
+            { name: "Бургер Классика", weight: "250 г", desc: "Котлета, салат, огурец, помидор", price: 300, img: "" },
             { name: "Чизбургер", weight: "280 г", desc: "Котлета, сыр чедр, сырный соус", price: 330, img: "" },
-            { name: "Бургер Вадуд", weight: "320 г", desc: "Котлета, баклажан, белый соус", price: 390, img: "" }],
-        grill: [{ name: "Шашлык из говядины", weight: "230 г", desc: "Сочный шашлык из говядины", price: 430, img: "" },
+            { name: "Бургер Вадуд", weight: "320 г", desc: "Котлета, баклажан, белый соус", price: 390, img: "" }
+        ],
+        grill: [
+            { name: "Шашлык из говядины", weight: "230 г", desc: "Сочный шашлык из говядины", price: 430, img: "" },
             { name: "Шашлык из курицы", weight: "230 г", desc: "Нежный шашлык из курицы", price: 310, img: "" },
-            { name: "Люля из говядины", weight: "200 г", desc: "Сочная люля-кебаб", price: 310, img: "" }],
-        hot: [{ name: "Плов классический", weight: "420 г", desc: "Плов с говядиной", price: 300, img: "" },
+            { name: "Люля из говядины", weight: "200 г", desc: "Сочная люля-кебаб", price: 310, img: "" }
+        ],
+        hot: [
+            { name: "Плов классический", weight: "420 г", desc: "Плов с говядиной", price: 300, img: "" },
             { name: "Манты по-узбекски", weight: "300 г", desc: "Манты с говядиной", price: 280, img: "" },
-            { name: "Плов по-чайхански", weight: "420 г", desc: "Плов с говядиной по-чайхански", price: 400, img: "" }],
-        drinks: [{ name: "Чай черный", weight: "300 мл", desc: "Цейлонский чай", price: 80, img: "" },
+            { name: "Плов по-чайхански", weight: "420 г", desc: "Плов с говядиной по-чайхански", price: 400, img: "" }
+        ],
+        drinks: [
+            { name: "Чай черный", weight: "300 мл", desc: "Цейлонский чай", price: 80, img: "" },
             { name: "Латте", weight: "250 мл", desc: "Кофе с молоком", price: 160, img: "" },
-            { name: "Мохито Классический", weight: "350 мл", desc: "Мята, лайм, содовая", price: 250, img: "" }]
+            { name: "Мохито Классический", weight: "350 мл", desc: "Мята, лайм, содовая", price: 250, img: "" }
+        ]
     };
     
-    const categoriesList = { breakfast: "🌅 Завтраки", soups: "🥣 Супы", shawarma: "🌯 Шаурма", burgers: "🍔 Бургеры", grill: "🥩 Мангал", hot: "🔥 Горячее", drinks: "🥤 Напитки" };
+    const categoriesList = {
+        breakfast: "🌅 Завтраки",
+        soups: "🥣 Супы",
+        shawarma: "🌯 Шаурма",
+        burgers: "🍔 Бургеры",
+        grill: "🥩 Мангал / Grill",
+        hot: "🔥 Горячее",
+        drinks: "🥤 Напитки"
+    };
     
     function saveCart() { localStorage.setItem('cart', JSON.stringify(cart)); updateCartDisplay(); }
+    
     function updateCartDisplay() {
         const cartDiv = document.getElementById('cartItems');
         const countSpan = document.getElementById('cartCount');
@@ -433,7 +454,13 @@
         totalDiv.innerText = `Итого: ${total} ₽`;
     }
     
-    function addToCart(name, price) { let existing = cart.find(i => i.name === name); if (existing) existing.qty++; else cart.push({ name, price, qty: 1 }); saveCart(); }
+    function addToCart(name, price) {
+        const existing = cart.find(i => i.name === name);
+        if (existing) existing.qty++;
+        else cart.push({ name, price, qty: 1 });
+        saveCart();
+    }
+    
     function removeFromCart(i) { cart.splice(i,1); saveCart(); }
     function openCart() { document.getElementById('cartSidebar').classList.add('open'); }
     function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); }
@@ -493,16 +520,22 @@
         openModal('confirmModal');
     }
     
+    function generateOrderNumber() { return Date.now().toString().slice(-6); }
+    
     async function sendFinalOrder() {
         let text = "", total = 0;
         cart.forEach(i => { total += i.price * i.qty; text += `• ${i.name} x${i.qty} = ${i.price*i.qty}₽\n`; });
         let type = currentOrderType === 'pickup' ? '🏪 Самовывоз' : '🚚 Доставка';
-        let msg = `🍽️ НОВЫЙ ЗАКАЗ 🍽️\n\n👤 Клиент: ${currentUser.name}\n📞 Телефон: ${currentUser.phone}\n📍 Адрес: ${currentUser.address || 'не указан'}\n\n📦 Заказ:\n${text}`;
+        let orderNum = generateOrderNumber();
+        let msg = `🍽️ НОВЫЙ ЗАКАЗ #${orderNum} 🍽️\n\n👤 Клиент: ${currentUser.name}\n📞 Телефон: ${currentUser.phone}\n📍 Адрес: ${currentUser.address || 'не указан'}\n\n📦 Заказ:\n${text}`;
         if (currentOrderType === 'delivery') { total += DELIVERY_FEE; msg += `\n🚚 Доставка: +${DELIVERY_FEE}₽\n📍 Адрес доставки: ${currentAddress}`; }
-        msg += `\n💰 Сумма к оплате: ${total}₽\n📋 Тип: ${type}`;
+        msg += `\n💰 Сумма: ${total}₽\n📋 Тип: ${type}`;
+        
+        const keyboard = { inline_keyboard: [[ { text: "✅ Принять заказ", callback_data: `accept_${orderNum}` }, { text: "❌ Отклонить заказ", callback_data: `decline_${orderNum}` } ]] };
+        
         try {
-            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ chat_id:CHAT_ID, text:msg }) });
-            alert(`✅ Заказ отправлен!\nСумма: ${total}₽`);
+            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ chat_id:CHAT_ID, text:msg, reply_markup:keyboard }) });
+            alert(`✅ Заказ #${orderNum} отправлен администратору!`);
             cart = []; saveCart(); closeModal('confirmModal'); closeCart();
             currentOrderType = null; currentAddress = null;
             document.getElementById('deliveryAddress').value = '';
@@ -541,8 +574,36 @@
         updateCartDisplay();
     }
     
+    let lastUpdateId = 0;
+    async function checkUpdates() {
+        try {
+            let res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?offset=${lastUpdateId+1}&timeout=30`);
+            let data = await res.json();
+            if (data.ok && data.result.length) {
+                for (let upd of data.result) {
+                    lastUpdateId = upd.update_id;
+                    if (upd.callback_query) {
+                        let cb = upd.callback_query.data;
+                        let text = upd.callback_query.message.text;
+                        let num = text.match(/#(\d+)/)?.[1] || '???';
+                        let phone = text.match(/📞 Телефон: ([+\d\s-]+)/)?.[1] || '+7 (929) 727-90-90';
+                        if (cb.startsWith('accept_')) {
+                            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ chat_id:CHAT_ID, text:`✅ ЗАКАЗ #${num} ПРИНЯТ!\n\nЗаказ подтверждён. Свяжитесь с клиентом: ${phone}` }) });
+                            alert(`✅ Заказ #${num} принят!`);
+                        } else if (cb.startsWith('decline_')) {
+                            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ chat_id:CHAT_ID, text:`❌ ЗАКАЗ #${num} ОТКЛОНЁН!\n\nПозвоните клиенту: ${phone}\nПричина: свяжитесь с нами для уточнения деталей.` }) });
+                            alert(`❌ Заказ #${num} отклонён!`);
+                        }
+                    }
+                }
+            }
+        } catch(e) {}
+        setTimeout(checkUpdates, 5000);
+    }
+    
     loadMenu();
     updateProfileUI();
+    checkUpdates();
 </script>
 </body>
 </html>
